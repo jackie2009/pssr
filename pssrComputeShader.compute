@@ -6,6 +6,7 @@
 RWTexture2D<float> Result;
 Texture2D inputTexture;
 float3 cmrPos;
+int ResultSize;
 float WaterHeight;
 float4x4 matrix_VP;
 [numthreads(8,8,1)]
@@ -20,7 +21,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
 	float3 uv= mul(matrix_VP,float4(waterWPos,1));
 	uv/=uv.z;
 	uv=uv/2+0.5;
-uint2 uvint=(uint2)( uv.xy*256+float2(0.5,0.5));
+uint2 uvint=(uint2)( uv.xy*ResultSize +float2(0.5,0.5));
 if (wpos.y < 0)
 	Result[uvint] = 1;//  float4(1, 0, 0, 1);
 	//Result[uvint+uint2(1,1)*4] += float4(0.1,0,0,0);

@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 public class PlanarSSR : MonoBehaviour
 {
 	public RenderTexture worldPosTex;
-	public static int rtSize = 256;
+	public static int rtSize = 1024;
 	private Material matss;
 	public ComputeShader computeShader;
 	public bool dispatchIndirectMode = false;
@@ -32,6 +32,7 @@ public class PlanarSSR : MonoBehaviour
          reflectTex.enableRandomWrite = true;
          reflectTex.Create();
          Shader.SetGlobalTexture("WaterPssrTex", reflectTex);
+         Shader.SetGlobalInt("WaterPssrTexSize", rtSize);
 	}
 
 	private void initComputeShader()
@@ -43,6 +44,7 @@ public class PlanarSSR : MonoBehaviour
 		computeShader.SetTexture(kernelMain,"Result",reflectTex);
 		computeShader.SetTexture(kernelCSClear,"Result",reflectTex);
 		computeShader.SetTexture(kernelMain,"inputTexture", worldPosTex);
+		computeShader.SetInt("ResultSize", rtSize);
 		 
 		indirectArguments= new ComputeBuffer(1, sizeof(uint) * 3, ComputeBufferType.IndirectArguments);
 		indirectArguments.SetData(new uint[]{(uint)(rtSize / 8), (uint)(rtSize / 8), 1});

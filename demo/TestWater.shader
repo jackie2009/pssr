@@ -71,8 +71,8 @@
 	  float2(-0.791559f, -0.59771f) };
      half ref =0;
 	 float offsetScale = 8;
-				for (int i = 0; i < 12;i++) {
-					ref += tex2D(WaterPssrTex, screenPos.xy + poisson[i]* offsetScale / WaterPssrTexSize ).r;
+				for (int k = 0; k < 12;k++) {
+					ref += tex2D(WaterPssrTex, screenPos.xy + poisson[k]* offsetScale / WaterPssrTexSize ).r;
 				}
 	         ref /= 12;
 			  col.rgb = lerp(_Color.rgb,  _ReflectionColor.rgb, _ReflectionIntensity*ref);
